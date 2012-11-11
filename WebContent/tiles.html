@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+<title>Wordfeud brikketeller</title>
+
+<link rel="stylesheet" href="style.css"/>
+<script type="text/javascript" src="jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="tiles.js"></script>
+
+</head>
+<body>
+	<div id="content">
+		
+		<form id="newGameForm">
+			<label>Motstander: </label> <input id="opponentInput" type="text"/><button id="newGameButton">Nytt spill</button>
+		</form>
+		<div id="gameTitle"></div>
+		<div id="tiles"></div>
+		<form id="wordForm">
+			<label>Nye bokstaver lagt: </label> <input id="wordInput" type="text"></input>
+			<button id="submit" type="submit">Legg til</button> <br/>
+			<label>Antall brikker igjen: </label>
+			<label id="tilesLeft"></label>
+		</form>
+	</div>
+</body>
+</html>

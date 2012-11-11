@@ -1,0 +1,86 @@
+@CHARSET "ISO-8859-1";
+
+html {
+	background-color: #FFF;
+	font-family: tahoma;
+	height: 100%;
+}
+
+body {
+	height: 100%;
+}
+
+
+#content {
+	margin: 0 auto;
+	padding: 20px 0;
+	width: 40%;
+	height: 100%;
+	color: #FFF;
+	background-color: #2F2727;
+	/* fallback image */
+	/*    background-image: url(images/fallback-gradient.png);  */
+	/* Safari 4+, Chrome 1-9 */
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#2F2727),
+		to(#1a82f7) );
+	/* Safari 5.1+, Mobile Safari, Chrome 10+ */
+	background-image: -webkit-linear-gradient(top, #2F2727, #413838);
+	/* Firefox 3.6+ */
+	background-image: -moz-linear-gradient(top, #2F2727, #413838);
+	/* IE 10+ */
+	background-image: -ms-linear-gradient(top, #2F2727, #413838);
+	/* Opera 11.10+ */
+	background-image: -o-linear-gradient(top, #2F2727, #413838);
+}
+
+#content > div {
+	margin: 0 auto;
+	width: 525px;
+}
+
+form#newGameForm {
+	margin: 0 auto;
+	padding: 20px 0;
+	width: 525px;
+	height: 25px;
+}
+
+div#tiles {
+	width: 525px;
+	height: 575px;
+	margin: 0 auto;
+	padding: 10px;
+	
+}
+
+div.tile {
+	color: #000;
+	float: left;
+	/* 	position: relative; */
+	width: 40px;
+	height: 40px;
+	margin: 5px;
+	border-width: 2px;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-color: #444;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background-color: #FFF;
+	/* 	margin: 5px; */
+	font-size: 28px;
+	text-align: center;
+	box-shadow: 2px 2px 3px #DDD;
+}
+
+div.used {
+	background-color: #AAA;
+	color: #777;
+}
+
+form#wordForm {
+	width: 525px;
+	margin: 0 auto;
+	color: #FFF;
+	visibility: hidden;
+}
