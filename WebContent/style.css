@@ -4,19 +4,31 @@ html {
 	background-color: #FFF;
 	font-family: tahoma;
 	height: 100%;
+	width: 100%;
 }
 
 body {
 	height: 100%;
+	width: 100%;
 }
 
-
 #content {
-	margin: 0 auto;
 	padding: 20px 0;
-	width: 40%;
+	width: 100%;
 	height: 100%;
+}
+
+#games {
+	padding: 20px;
+	width: 100%;
+	height: 100%;
+	visibility: hidden;
 	color: #FFF;
+}
+
+div.game {
+	float: left;
+	width: 525px;
 	background-color: #2F2727;
 	/* fallback image */
 	/*    background-image: url(images/fallback-gradient.png);  */
@@ -31,35 +43,37 @@ body {
 	background-image: -ms-linear-gradient(top, #2F2727, #413838);
 	/* Opera 11.10+ */
 	background-image: -o-linear-gradient(top, #2F2727, #413838);
+	padding: 20px;
+	margin: 10px;
 }
 
-#content > div {
-	margin: 0 auto;
-	width: 525px;
+div.tiles {
+	width: 500px;
+	padding: 20px 10px;
+}
+
+form * {
+	margin: 0 10px;
 }
 
 form#newGameForm {
-	margin: 0 auto;
-	padding: 20px 0;
-	width: 525px;
-	height: 25px;
+	margin: 0 40px;
 }
 
-div#tiles {
+form.wordForm {
 	width: 525px;
-	height: 575px;
-	margin: 0 auto;
-	padding: 10px;
-	
+}
+
+label#gameTitle {
+	font-weight: bold;
 }
 
 div.tile {
 	color: #000;
 	float: left;
-	/* 	position: relative; */
-	width: 40px;
-	height: 40px;
-	margin: 5px;
+	width: 25px;
+	height: 25px;
+	margin: 3px;
 	border-width: 2px;
 	border-right-style: solid;
 	border-bottom-style: solid;
@@ -67,20 +81,16 @@ div.tile {
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	background-color: #FFF;
-	/* 	margin: 5px; */
-	font-size: 28px;
+	font-size: 18px;
 	text-align: center;
 	box-shadow: 2px 2px 3px #DDD;
+}
+
+div.tile:hover {
+	cursor: pointer;
 }
 
 div.used {
 	background-color: #AAA;
 	color: #777;
-}
-
-form#wordForm {
-	width: 525px;
-	margin: 0 auto;
-	color: #FFF;
-	visibility: hidden;
 }

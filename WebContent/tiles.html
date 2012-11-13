@@ -5,25 +5,20 @@
 
 <title>Wordfeud brikketeller</title>
 
-<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="style.css" />
 <script type="text/javascript" src="jquery-1.8.2.min.js"></script>
 <script type="text/javascript" src="tiles.js"></script>
 
 </head>
 <body>
 	<div id="content">
-		
 		<form id="newGameForm">
-			<label>Motstander: </label> <input id="opponentInput" type="text"/><button id="newGameButton">Nytt spill</button>
+			Motstander: <input id="opponentInput" type="text"/>
+			<button id="newGameButton">Nytt spill</button>
 		</form>
-		<div id="gameTitle"></div>
-		<div id="tiles"></div>
-		<form id="wordForm">
-			<label>Nye bokstaver lagt: </label> <input id="wordInput" type="text"></input>
-			<button id="submit" type="submit">Legg til</button> <br/>
-			<label>Antall brikker igjen: </label>
-			<label id="tilesLeft"></label>
-		</form>
+		<div id="games" >
+		</div>
+		<div id="txtHint">HEI</div>
 	</div>
 </body>
 </html>
