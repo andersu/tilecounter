@@ -4,7 +4,7 @@
 // TODO: Responsive design
 // TODO: Login
 // TODO: Persistering
-// TODO: Sett opp Play framework server for å persistere ting
+// TODO: Sett opp Play framework server for ï¿½ persistere ting
 var gameCounter = 0;
 
 $('document').ready(function() {
@@ -16,17 +16,15 @@ $('document').ready(function() {
 		$(this)[0].reset();
 		return false;
 	});
-	
-	//getDataFromDatabase();
 });
 
 function updateNumberOfTilesLeft() {
 	var i;
-	
-	for (i = 1; i <= gameCounter; i++) {
+
+	for ( i = 1; i <= gameCounter; i++) {
 		var tilesInGame = $('#tiles' + i).children(".tile");
 		var usedTilesInGame = $('#tiles' + i).children(".used");
-		var tilesLeft =  tilesInGame.length - usedTilesInGame.length;
+		var tilesLeft = tilesInGame.length - usedTilesInGame.length;
 		$('#tilesLeft' + i).text(tilesLeft);
 	}
 }
@@ -50,215 +48,106 @@ function toggleTile(gameNumber, tile) {
 function disableTile(form, letter) {
 
 	var firstTile;
-	 
+
 	var gameNumber = form.attr("id")[8];
+	var tilesDivId = '#tiles' + gameNumber;
+	var tiles = $(tilesDivId).children(':not(.used)');
+
 	if (letter == "*") {
-		firstTile = $('#tiles' + gameNumber).children('.blank').first();
+		firstTile = $(tilesDivId + '> .blank').first();
 	} else {
-		firstTile = $('#tiles' + gameNumber).children('.' + letter).first();
+		// Get the first tile containing the given letter
+		var firstLetter = tiles.children('.' + letter).first()
+		var firstTile = firstLetter.parent();
+
 	}
+
 	if (firstTile.val() == undefined) {
 		alert("Ingen flere " + letter + "-brikker igjen!");
-	} else if (firstTile.text() == "") {
-		firstTile.addClass("used");
-		firstTile.removeClass("blank");	
 	} else {
-		firstTile.addClass("used");
-		firstTile.removeClass(letter);
+		toggleTile(gameNumber, firstTile);
 	}
 };
 
-function addTile(tilesDiv, letter) {
-	if (letter == "") {
-		tilesDiv.append($('<div class="tile blank"></div>'));
-	} else {
-		
-		tilesDiv.append($('<div class="tile ' + letter + '">' + letter
-				+ '</div>'));
-	}
+function postGame() {
+	var game = {};
+	$.post("http://localhost:9000/game", {
+		json_string : JSON.stringify(game)
+	});
 }
 
 function createGame(opponent) {
 	gameCounter++;
-	
+
 	var gameId = 'game' + gameCounter;
 	var tilesId = 'tiles' + gameCounter;
 	var wordFormId = 'wordForm' + gameCounter;
 	var wordInputId = 'wordInput' + gameCounter;
 	var tilesLeftId = 'tilesLeft' + gameCounter;
-	
-	var gameDiv = '<div id="' + gameId + '" class="game">' + '<label id="gameTitle">Spill mot '
-			+ opponent + '</label><div id="' + tilesId + '" class="tiles"></div>' + '</div>';
-	var newWordForm = '<form id="' + wordFormId + '" class="wordForm">' + 
-						'Nye bokstaver lagt: ' + 
-						'<input id="' + wordInputId + '" type="text"></input>' +
-						'<button id="submit" type="submit">Legg til</button> <br />' + 
-						'Antall brikker igjen: ' +
-						'<label id="' + tilesLeftId + '"></label>' +
-					  '</form>';
-	
+
+	var gameDiv = '<div id="' + gameId + '" class="game">' + '<label id="gameTitle">Spill mot ' + opponent + '</label><div id="' + tilesId + '" class="tiles"></div>' + '</div>';
+	var newWordForm = '<form id="' + wordFormId + '" class="wordForm">' + 'Nye bokstaver lagt: ' + '<input id="' + wordInputId + '" type="text"></input>' + '<button id="submit" type="submit">Legg til</button> <br />' + 'Antall brikker igjen: ' + '<label id="' + tilesLeftId + '"></label>' + '</form>';
+
 	$('#games').append(gameDiv);
-	
+
 	var tilesDiv = $('#tiles' + gameCounter);
 	createTiles(tilesDiv);
 	// TODO: fix ugly code
-	$('#' + gameId).append("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
+	$('#' + gameId).append("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
 	$('#' + gameId).append(newWordForm);
-
 
 	$('#' + tilesId).children(".tile").click(function() {
 		toggleTile(gameCounter, $(this));
 	});
-	
+
 	$('#' + wordFormId).submit(function() {
 		var input = $('#' + wordInputId).val().toUpperCase();
 		var i = 0;
-		for (i = 0; i < input.length; i++) {
+		for ( i = 0; i < input.length; i++) {
 			disableTile($(this), input[i]);
 		}
 		// Remove text from input field
 		$(this)[0].reset();
-		
-		
+
 		updateNumberOfTilesLeft();
 		return false;
 	});
-	
+
 	$('#games').css("visibility", "visible");
 
 	updateNumberOfTilesLeft();
-	
 
-	
+	postGame()
 
-}
-
-function getDataFromDatabase() {
-	if (window.XMLHttpRequest)
-	  {// code for IE7+, Firefox, Chrome, Opera, Safari
-	  xmlhttp=new XMLHttpRequest();
-	  alert("in the if");
-	  }
-	else
-	  {// code for IE6, IE5
-	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-	  }
-	
-	xmlhttp.onreadystatechange=function()
-	  {
-	  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-	    {
-		alert("i state-if");
-	    $("#txtHint").innerHTML=xmlhttp.responseText;
-	    }
-	  };
-	alert("skal kalle php");
-	xmlhttp.open("GET","index.php",true);
-	xmlhttp.send();
-	alert("php kalt");
 }
 
 function createTiles(tilesDiv) {
-	var i;
 
-	// Add 7 As
-	for (i = 0; i < 7; i++) {
-		addTile(tilesDiv, "A");
-	}
+	var tileDistribution = "7:A:1 3:B:4 1:C:10 5:D:1 9:E:1 4:F:2 4:G:4 3:H:3 6:I:2 2:J:4 4:K:3 5:L:2 3:M:2 6:N:1 " + "4:O:3 2:P:4 7:R:1 7:S:1 7:T:1 3:U:4 3:V:5 1:W:10 1:Y:8 1:Ã†:8 2:Ã˜:4 2:Ã…:4 2:*:";
 
-	// Add 3 Bs
-	for (i = 0; i < 3; i++) {
-		addTile(tilesDiv, "B");
-	}
+	$.map(tileDistribution.split(" "), function(tileBasis) {
+		var numberOfTiles = tileBasis.split(":")[0];
+		var letter = tileBasis.split(":")[1];
+		var value = tileBasis.split(":")[2];
 
-	// Etc.
-	addTile(tilesDiv, "C");
+		var tile;
 
-	for (i = 0; i < 5; i++) {
-		addTile(tilesDiv, "D");
-	}
+		var i;
+		for ( i = 0; i < numberOfTiles; i++) {
+			if (letter === '*') {
+				tile = $('<div class="tile blank"></div>');
+			} else {
+				tile = $('<div class="tile">' + '<div class="letter ' + letter + '">' + letter + '</div>' + '<div class="value">' + value + '</div>' + '</div>');
+			}
+			tilesDiv.append(tile);
+		}
 
-	for (i = 0; i < 9; i++) {
-		addTile(tilesDiv, "E");
-	}
+		// Make the big letters smaller
+		$('.W').addClass("smallerletter");
+		$('.W').removeClass("letter");
+		$('.Ã†').addClass("smallerletter");
+		$('.Ã†').removeClass("letter");
 
-	for (i = 0; i < 4; i++) {
-		addTile(tilesDiv, "F");
-	}
-
-	for (i = 0; i < 4; i++) {
-		addTile(tilesDiv, "G");
-	}
-
-	for (i = 0; i < 3; i++) {
-		addTile(tilesDiv, "H");
-	}
-
-	for (i = 0; i < 6; i++) {
-		addTile(tilesDiv, "I");
-	}
-
-	for (i = 0; i < 2; i++) {
-		addTile(tilesDiv, "J");
-	}
-
-	for (i = 0; i < 4; i++) {
-		addTile(tilesDiv, "K");
-	}
-
-	for (i = 0; i < 5; i++) {
-		addTile(tilesDiv, "L");
-	}
-
-	for (i = 0; i < 3; i++) {
-		addTile(tilesDiv, "M");
-	}
-
-	for (i = 0; i < 6; i++) {
-		addTile(tilesDiv, "N");
-	}
-
-	for (i = 0; i < 4; i++) {
-		addTile(tilesDiv, "O");
-	}
-
-	for (i = 0; i < 2; i++) {
-		addTile(tilesDiv, "P");
-	}
-
-	for (i = 0; i < 7; i++) {
-		addTile(tilesDiv, "R");
-	}
-
-	for (i = 0; i < 7; i++) {
-		addTile(tilesDiv, "S");
-	}
-
-	for (i = 0; i < 7; i++) {
-		addTile(tilesDiv, "T");
-	}
-
-	for (i = 0; i < 3; i++) {
-		addTile(tilesDiv, "U");
-	}
-
-	for (i = 0; i < 3; i++) {
-		addTile(tilesDiv, "V");
-	}
-
-	addTile(tilesDiv, "W");
-	addTile(tilesDiv, "Y");
-	addTile(tilesDiv, "Æ");
-
-	for (i = 0; i < 2; i++) {
-		addTile(tilesDiv, "Ø");
-	}
-
-	for (i = 0; i < 2; i++) {
-		addTile(tilesDiv, "Å");
-	}
-
-	for (i = 0; i < 2; i++) {
-		addTile(tilesDiv, "");
-	}
+		return tile;
+	});
 }
