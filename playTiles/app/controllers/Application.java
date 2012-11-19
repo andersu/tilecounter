@@ -41,18 +41,23 @@ public class Application extends Controller {
 	 */
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result create() {
-		
+		System.out.println("In create()");
+		System.out.println(request());
 		JsonNode json = request().body().asJson();
-		System.out.println(request().body().asText());
+		System.out.println(request().body());
 		ObjectNode result = Json.newObject();
 
 		if (json == null) {
+			System.out.println("json er null :o");
 			result.put("status", "Couldn't create game");
 			result.put("message", "Could not parse contents of request body");
 			return badRequest(result);
 		}
 
 		Game game = Json.fromJson(json, Game.class);
+		System.out.println("Game: " + game.getId() + " Opponent: "
+				+ game.getOpponent() + " Tiles played: "
+				+ game.getTilesPlayed());
 		game.save();
 		return ok(Json.toJson(game));
 	}
@@ -80,6 +85,11 @@ public class Application extends Controller {
 		Game updatedGame = Json.fromJson(node, Game.class);
 		game.update(updatedGame);
 		game.save();
+
+		System.out
+				.println("id: " + game.getId() + " opponent: "
+						+ game.getOpponent() + " tilesPlayed: "
+						+ game.getTilesPlayed());
 
 		return ok(Json.toJson(game));
 	}
@@ -111,5 +121,6 @@ public class Application extends Controller {
 			return ok(result);
 		}
 	}
+
 
 }
