@@ -12,14 +12,29 @@ body {
 	width: 100%;
 }
 
+.header {
+	position: fixed !important;
+	float: left;
+	position: absolute;
+	width: 100%;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	background-color: #391456;
+	min-width: 981px;
+	z-index: 300;
+}
+
 #content {
-	padding: 20px 0;
+	margin: 0px auto;
+	position: relative;
+	top: 40px;
 	width: 100%;
 	height: 100%;
 }
 
 #games {
-	padding: 20px;
+	padding: 0 20px;
 	width: 100%;
 	height: 100%;
 	visibility: hidden;
@@ -59,8 +74,9 @@ form * {
 }
 
 form#newGameForm {
-	margin: 0 40px;
+	padding: 20px 0;
 	text-align: center;
+	/*visibility: hidden;*/
 }
 
 form.wordForm {
@@ -97,7 +113,7 @@ div.tile:hover {
 
 div.letter {
 	float: left;
-	width:50%;
+	width:30%;
 	position: relative;
 	padding-left: 5px;
 	padding-top: 1px;
@@ -118,7 +134,7 @@ div.value {
 	position: relative;
 	float: right;
 	text-align: right;
-	top: -2px;
+	top: -1px;
 	padding-right: 2px;
 	font-size: 10px;
 }
@@ -127,4 +143,26 @@ div.value {
 div.used {
 	background-color: #AAA;
 	color: #777;
+}
+
+.loginBar {
+	color: white;
+	width: 980px;
+	font-size: 12px;
+	float: right;
+}
+
+.loginDiv {
+	float: right;
+	padding: 5px 0;
+}
+
+.loginDiv input {
+	margin-top: 1px;
+	vertical-align: middle;
+}
+
+#loginButton {
+	float: right;
+	vertical-align: middle;
 }

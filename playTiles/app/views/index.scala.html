@@ -1,23 +1,41 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-<title>Wordfeud brikketeller</title>
+		<title>Wordfeud brikketeller</title>
 
-<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/style.css")">
-<script type="text/javascript" src="@routes.Assets.at("javascripts/jquery-1.8.2.min.js")"></script>
-<script type="text/javascript" src="@routes.Assets.at("javascripts/tiles.js")"></script>
+		<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/style.css")">
+		<script type="text/javascript" src="@routes.Assets.at("javascripts/jquery-1.8.2.min.js")"></script>
+		<script type="text/javascript" src="@routes.Assets.at("javascripts/tiles.js")"></script>
 
-</head>
-<body>
-	<div id="content">
-		<form id="newGameForm">
-			Motstander: <input id="opponentInput" type="text"/>
-			<button id="newGameButton">Nytt spill</button>
-		</form>
-		<div id="games" >
+	</head>
+	<div class="header">
+		<div class="loginBar" >
+			<div class="loginDiv">
+				<form id="loginForm">
+					Brukernavn:
+					<input type="text"/>
+					Passord:
+					<input type="password"/>
+					<button id="loginButton" type="submit">
+						Logg inn
+					</button>
+				</form>
+			</div>
 		</div>
 	</div>
-</body>
+	<body>
+
+		<div id="content">
+			<form id="newGameForm">
+				Motstander:
+				<input id="opponentInput" type="text"/>
+				<button id="newGameButton">
+					Nytt spill
+				</button>
+			</form>
+			<div id="games" ></div>
+		</div>
+	</body>
 </html>

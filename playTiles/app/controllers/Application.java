@@ -41,10 +41,8 @@ public class Application extends Controller {
 	 */
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result create() {
-		System.out.println("In create()");
 		System.out.println(request());
 		JsonNode json = request().body().asJson();
-		System.out.println(request().body());
 		ObjectNode result = Json.newObject();
 
 		if (json == null) {
@@ -55,7 +53,7 @@ public class Application extends Controller {
 		}
 
 		Game game = Json.fromJson(json, Game.class);
-		System.out.println("Game: " + game.getId() + " Opponent: "
+		System.out.println("Opponent: "
 				+ game.getOpponent() + " Tiles played: "
 				+ game.getTilesPlayed());
 		game.save();
@@ -69,10 +67,10 @@ public class Application extends Controller {
 	 */
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result update(Long id) {
+		JsonNode json = request().body().asJson();
 
-		JsonNode node = request().body().asJson();
-
-		if (node == null) {
+		if (json == null) {
+			System.out.println("json er null :o");
 			ObjectNode result = Json.newObject();
 			result.put("status", "Could not update game.");
 			result.put("melding", "Could not parse contents of request body.");
@@ -82,18 +80,52 @@ public class Application extends Controller {
 
 		Game game = Game.find.byId(id);
 
-		Game updatedGame = Json.fromJson(node, Game.class);
+		Game updatedGame = Json.fromJson(json, Game.class);
+		updatedGame.setId(id);
 		game.update(updatedGame);
 		game.save();
 
 		System.out
-				.println("id: " + game.getId() + " opponent: "
+				.println("id: " + id + " opponent: "
 						+ game.getOpponent() + " tilesPlayed: "
 						+ game.getTilesPlayed());
 
 		return ok(Json.toJson(game));
 	}
 
+	/*
+	 * Remove tile played from game.
+	 * 
+	 * PUT: /game/:id/removeTile
+	 */
+	@BodyParser.Of(BodyParser.Json.class)
+	public static Result removeTile(Long id) {
+		JsonNode json = request().body().asJson();
+		
+		if (json == null) {
+			System.out.println("json er null :o");
+			ObjectNode result = Json.newObject();
+			result.put("status", "Could not update game.");
+			result.put("melding", "Could not parse contents of request body.");
+
+			return badRequest(result);
+		}
+		
+		Game game = Game.find.byId(id);
+
+		Game updatedGame = Json.fromJson(json, Game.class);
+		updatedGame.setId(id);
+		game.update(updatedGame);
+		game.save();
+
+		System.out
+				.println("id: " + id + " opponent: "
+						+ game.getOpponent() + " tilesPlayed: "
+						+ game.getTilesPlayed());
+
+		return ok(Json.toJson(game));
+	}
+	
 	/*
 	 * Delete game
 	 * 
@@ -120,6 +152,15 @@ public class Application extends Controller {
 			result.put("message", "Game was deleted");
 			return ok(result);
 		}
+	}
+	
+	/*
+	 * Count games
+	 * GET: /numberOfGames
+	 * 
+	 */
+	public static Result count() {
+		return ok(Json.toJson(Game.find.all().size()));
 	}
 
 
