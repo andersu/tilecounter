@@ -15,6 +15,7 @@ public class Game extends Model {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
+	String player;
 	String opponent;
 	String tilesPlayed;
 
@@ -24,6 +25,14 @@ public class Game extends Model {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public String getPlayer() {
+		return player;
+	}
+	
+	public void setPlayer(String player) {
+		this.player = player;
 	}
 
 	public String getOpponent() {
@@ -56,11 +65,21 @@ public class Game extends Model {
 
 	public void update(Game updatedGame) {
 		this.setId(updatedGame.getId());
+		this.setPlayer(updatedGame.getPlayer());
 		this.setOpponent(updatedGame.getOpponent());
-		this.setTilesPlayed(this.tilesPlayed + updatedGame.getTilesPlayed());
+		if (updatedGame.getTilesPlayed().startsWith("-")) {
+			System.out.println("starts with -");
+			String letterToReplace = updatedGame.getTilesPlayed().substring(1);
+			this.setTilesPlayed(this.tilesPlayed.replaceFirst(letterToReplace, ""));
+		}
+		else {
+			this.setTilesPlayed(this.tilesPlayed + updatedGame.getTilesPlayed());
+		}
 	}
 	
 	public void removeFromTilesPlayed(String tileToRemove) {
+		String newTilesPlayed = "";
+		this.tilesPlayed.replace(tileToRemove, "");
 		System.out.println(this.tilesPlayed);
 	}
 

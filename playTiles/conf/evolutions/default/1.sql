@@ -5,6 +5,7 @@
 
 create table game (
   id                        bigint auto_increment not null,
+  player                    varchar(255),
   opponent                  varchar(255),
   tiles_played              varchar(255),
   constraint pk_game primary key (id))

@@ -11,6 +11,7 @@ POST    	/game                  	controllers.Application.create()
 GET			/game/:id				controllers.Application.show(id: Long)
 PUT			/game/:id				controllers.Application.update(id: Long)
 PUT			/game/:id/removeTile	controllers.Application.removeTile(id: Long)
+DELETE		/game/:id				controllers.Application.delete(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -4,15 +4,21 @@
 // TODO: Login
 // TODO: Knytte games til en bruker
 // TODO: Persistering
-// TODO: Delete. 
+// TODO: Delete.
 // TODO: Oppdatering ved toggle used tile.
-
+// TODO: Hente alle games hvor player == brukernavn når en bruker logger inn
 
 var gameCount = 0;
+var loginForm;
+var splashDiv;
+var user;
 $('document').ready(function() {
-	loadGames();
-	
-	$('#newGameForm').submit(function() {
+
+	if ($(window).width() < 1000) {
+		$('.logo').attr("src", "assets/images/logotext.png")
+	}
+	$('.newGameForm').submit(function() {
+
 		var opponent = $("#opponentInput").val();
 		var game = createGame(++gameCount, opponent);
 		postGame(game);
@@ -21,26 +27,38 @@ $('document').ready(function() {
 
 		return false;
 	});
-	
-	$('#loginForm').submit(function() {
-		
+
+	$('.loginForm').submit(function() {
+
+		var username = $('.username').val();
+		user = username;
+		var password = $('.password').val();
+
+		// if (username === "anders" && password === "anders") {
+		$('.newGameForm').css("visibility", "visible");
+		$(this)[0].reset();
+		loginForm = $(this);
+		splash = $('.splash');
+		splash.remove();
+		$('.loginForm').remove();
+		var userDiv = '<div class="userdiv">' + username + '</div>';
+		//$('.loginDiv').append(userDiv);
+		$('.userdiv').append('<img class="userimg" src="assets/images/User.png")"/>');
+		//}
+
+		var numberOfGames = $.get("http://localhost:9000/numberOfGames", function(numberOfGames) {
+			loadGames(username, numberOfGames);
+		});
+
 		return false;
 	});
 });
 
-function loadGames() {
-
-	// Pseudo:
-	// i = 1
-	// WHILE NOT ERROR {
-	// 	LOAD GAME i
-	// 	CREATE GAME i
-	// }
-	// gameCount = i
+function loadGames(username, numberOfGames) {
 	var i = 1;
-	
+
 	var game;
-	for (i = 1; i < 10; i++) {
+	for ( i = 1; i <= numberOfGames; i++) {
 		game = $.get("http://localhost:9000/game/" + i, function(game) {
 			createGame(game.id, game.opponent);
 			gameCount++;
@@ -62,12 +80,21 @@ function updateNumberOfTilesLeft(id) {
 }
 
 function removeFromTilesPlayed(letter) {
-		
+
 }
 
 function toggleTile(gameId, tile) {
+	var gameId = tile.parent().attr('id').substring(5);
+	var opponent = $('#opponent' + gameId).text();
+
 	if (tile.hasClass("used")) {
 		tile.removeClass("used");
+		tile.unbind("click");
+		tile.click(function() {
+			toggleTile(gameId, $(this));
+			updateGame(gameId, opponent, "-" + $(this).children('.letter').text());
+		});
+
 		if (tile.text() == "") {
 			tile.addClass("blank");
 			removeFromTilesPlayed("*");
@@ -75,11 +102,15 @@ function toggleTile(gameId, tile) {
 			tile.addClass(tile.text());
 			removeFromTilesPlayed(tile.text());
 		}
-		
-		
+
 	} else {
 		tile.addClass("used");
 		tile.removeClass(tile.text());
+		tile.unbind("click");
+		tile.click(function() {
+			toggleTile(gameId, $(this));
+			updateGame(gameId, opponent, "-" + $(this).children('.letter').text());
+		});
 	}
 
 	updateNumberOfTilesLeft(gameId);
@@ -106,6 +137,7 @@ function disableTile(gameId, letter) {
 	} else {
 		toggleTile(gameId, firstTile);
 	}
+
 };
 
 function postGame(game) {
@@ -127,6 +159,17 @@ function updateGame(id, opponent, tilesPlayed) {
 	$.ajax({
 		url : "http://localhost:9000/game/" + id,
 		type : 'PUT',
+		data : JSON.stringify(game),
+		contentType : "application/json; charset=utf-8",
+		dataType : "json",
+	});
+}
+
+function deleteGame(id) {
+	var game = {id : id};
+	$.ajax({
+		url : "http://localhost:9000/game/" + id,
+		type : 'DELETE',
 		data : JSON.stringify(game),
 		contentType : "application/json; charset=utf-8",
 		dataType : "json",
@@ -155,18 +198,33 @@ function createGame(id, opponent) {
 	var tilesLeftId = 'tilesLeft' + id;
 	var opponentId = 'opponent' + id;
 
-	var gameDiv = '<div id="' + gameId + '" class="game">' + '<label id="gameTitle">Spill mot <label id="' + opponentId + '">' + opponent + '</label></label><div id="' + tilesId + '" class="tiles"></div>' + '</div>';
+	var gameDiv = '<div id="' + gameId + '" class="game">' + 
+				  	'<label id="gameTitle">' + 
+				  		'Spill mot ' + 
+				  		'<label id="' + opponentId + '">' + 
+				  			opponent + 
+				  		'</label>' +
+				  	'</label>' + 
+				  	'<a class="close">X</a>' + 
+				  	'<div id="' + tilesId + '" class="tiles"></div>' + 
+				  '</div>';
 	var newWordForm = '<form id="' + wordFormId + '" class="wordForm">' + 'Nye bokstaver lagt: ' + '<input id="' + wordInputId + '" type="text"></input>' + '<button id="submit" type="submit">Legg til</button> <br />' + 'Antall brikker igjen: ' + '<label id="' + tilesLeftId + '"></label>' + '</form>';
 
 	$('#games').append(gameDiv);
+	$('#'+gameId).children('.close').click(function() {
+		var id = $(this).parent().attr('id')[4];
+		alert(id);
+		$(this).parent().remove();
+		deleteGame(id);
+	});
 
 	var tilesDiv = $('#tiles' + id);
 	createTiles(tilesDiv);
 	// TODO: fix ugly code
 	$('#' + gameId).append("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
-	$('#' + gameId).append(newWordForm);
+	$('#' + gameId).append('<div>' + newWordForm + '</div>');
 
-	$('#' + tilesId).children(".tile").click(function() {
+	$('#' + tilesId).children('.tile').click(function() {
 		toggleTile(id, $(this));
 		updateGame(id, opponent, $(this).children('.letter').text());
 	});
@@ -187,10 +245,11 @@ function createGame(id, opponent) {
 	updateNumberOfTilesLeft();
 
 	var game = {
+		player : user,
 		opponent : opponent,
 		tilesPlayed : ""
 	};
-	
+
 	return game;
 
 }

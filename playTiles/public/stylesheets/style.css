@@ -2,7 +2,7 @@
 
 html {
 	background-color: #FFF;
-	font-family: tahoma;
+	font-family: tahoma, Helvetica, Arial, sans-serif;
 	height: 100%;
 	width: 100%;
 }
@@ -12,29 +12,72 @@ body {
 	width: 100%;
 }
 
+
 .header {
-	position: fixed !important;
+	width: 100%;
+	background-color: #391456;
 	float: left;
 	position: absolute;
 	width: 100%;
 	top: 0px;
 	left: 0px;
 	right: 0px;
-	background-color: #391456;
-	min-width: 981px;
 	z-index: 300;
+	color: white;
+	font-size: 12px;
+	height: 12%;
+}
+
+.logo {
+	float: left;
+	height: 100%;
+}
+
+.loginDiv {
+	position:relative;
+	top: 7px;
+	float: right;
+	width: 30%;
+}
+
+.loginDiv input {
+}
+
+.loginForm {
+	float: right;
+}
+
+img {
+	max-width: 100%;
+}
+.userdiv{
+	position: relative;
+	background-color: #604277;
+	height: 80%;
+	text-align: center;
+}
+
+.userimg {
+	position: relative;
+	top: 5px;
+	height: 75%;
+	bottom: 0;
+	float: left;
 }
 
 #content {
 	margin: 0px auto;
 	position: relative;
-	top: 40px;
+	top: 100px;
 	width: 100%;
 	height: 100%;
 }
 
+.splash {
+	text-align: center;
+}
 #games {
-	padding: 0 20px;
+	/*padding: 0 20px;*/
 	width: 100%;
 	height: 100%;
 	visibility: hidden;
@@ -64,6 +107,7 @@ div.game {
 	margin: 10px;
 }
 
+
 div.tiles {
 	width: 100%;
 	padding: 20px 10px;
@@ -73,10 +117,12 @@ form * {
 	margin: 0 10px;
 }
 
-form#newGameForm {
+form.newGameForm {
 	padding: 20px 0;
+	width: 100%;
 	text-align: center;
-	/*visibility: hidden;*/
+	visibility: hidden;
+	float: left;
 }
 
 form.wordForm {
@@ -103,7 +149,6 @@ div.tile {
 	border-radius: 5px;
 	background-color: #FFF;
 	
-
 	box-shadow: 2px 2px 3px #DDD;
 }
 
@@ -145,24 +190,97 @@ div.used {
 	color: #777;
 }
 
-.loginBar {
-	color: white;
-	width: 980px;
-	font-size: 12px;
-	float: right;
+
+@media all and (max-width: 1001px) {
+	body {
+		font-size: 40pt;
+	}
+	div.game {
+		width: 100%;
+	}
+	div.tile {
+		height: 100pt;
+		width: 100pt;
+		margin: 5pt;
+		
+		color: #000;
+		border-width: 8pt;
+		border-right-style: solid;
+		border-bottom-style: solid;
+		-moz-border-radius: 20pt;
+		border-radius: 20pt;
+		
+		box-shadow: 3pt 3pt 6pt #DDD;
+	}
+	
+	div.letter {
+		font-size: 71pt;
+		padding-left: 10pt;
+		padding-top: 8pt;
+	}
+	
+	div.smallerletter{
+		float: left;
+		width:20%;
+		position: relative;
+		padding-left: 9pt;
+		padding-top: 9pt;
+		font-size: 65pt;
+	}	
+	
+	div.value {
+		font-size: 35pt;
+	}
+	
+	.logo {
+		width: 100%;
+		height: 30%;
+	}
+	
+	.header {
+		height: 45%;
+	}
+	
+	.loginDiv {
+		float: left;
+		width: 100%;
+	}
+	
+	.loginForm {
+		font-size: 40pt;
+		height: 50%;
+		text-align: right;
+	}
+	
+	input {
+		height: 40pt;
+		width: 300pt;
+		margin-left: 30pt;
+		font-size: 40pt;
+	}
+	
+	.loginForm button {
+		font-size: 20pt
+	}
+	
+	#content {
+		top: 300pt;
+		margin-top: 100pt;
+		z-index: 300;
+	}
 }
 
-.loginDiv {
+.close {
 	float: right;
-	padding: 5px 0;
+	color: #AAAAAA;
+	font-weight: bold;
 }
 
-.loginDiv input {
-	margin-top: 1px;
-	vertical-align: middle;
+.close:hover {
+	cursor: pointer;
 }
 
-#loginButton {
-	float: right;
-	vertical-align: middle;
+@media all and (min-width: 1002px) {
+	position: fixed !important;
 }
+

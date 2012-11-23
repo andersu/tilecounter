@@ -10,32 +10,49 @@
 		<script type="text/javascript" src="@routes.Assets.at("javascripts/tiles.js")"></script>
 
 	</head>
-	<div class="header">
-		<div class="loginBar" >
+
+	<body>
+		
+		<div class="header">
+			<img class="logo" src="@routes.Assets.at("images/GameOfTiles.png")"/>
 			<div class="loginDiv">
-				<form id="loginForm">
-					Brukernavn:
-					<input type="text"/>
-					Passord:
-					<input type="password"/>
-					<button id="loginButton" type="submit">
-						Logg inn
-					</button>
+				<form class="loginForm">
+					<table>
+						<tr>
+							<td>Brukernavn:</td>
+							<td>
+							<input class="username" type="text"/>
+							</td>
+						</tr>
+						<tr>
+							<td>Passord:</td>
+							<td>
+							<input class="password" type="password"/>
+							</td>
+							<td>
+							<button id="loginButton" type="submit">
+								Logg inn
+							</button></td>
+						</tr>
+					</table>
+
 				</form>
 			</div>
 		</div>
-	</div>
-	<body>
 
 		<div id="content">
-			<form id="newGameForm">
+			<form class="newGameForm">
 				Motstander:
 				<input id="opponentInput" type="text"/>
 				<button id="newGameButton">
 					Nytt spill
 				</button>
 			</form>
-			<div id="games" ></div>
+			<div class="splash">
+				<h1>Velkommen til Game of Tiles!</h1> <br/>
+				<img class="splashimg" src="@routes.Assets.at("images/GameOfTiles.png")"/>
+			</div>
+			<div id="games"></div>
 		</div>
 	</body>
 </html>

@@ -10,33 +10,24 @@
 		<script type="text/javascript" src="@routes.Assets.at("javascripts/tiles.js")"></script>
 
 	</head>
-	<body>
-		<div id="loginDiv" >
-			<form "loginForm">
-				<table>
-					<tr>
-						<td>Brukernavn:</td>
-						<td>
-						<input type="text"/>
-						</td>
-					</tr>
-					<tr>
-						<td>Passord:</td>
-						<td>
-						<input type="password"/>
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td>
-						<button id="loginButton" type="submit">
-							Logg inn
-						</button></td>
-					</tr>
-				</table>
-
-			</form>
+	<div class="header">
+		<img id="logotext" src="@routes.Assets.at("images/logotext.png")"/>
+		<div class="loginBar" >
+			<div class="loginDiv">
+				<form id="loginForm">
+					Brukernavn:
+					<input type="text"/>
+					Passord:
+					<input type="password"/>
+					<button id="loginButton" type="submit">
+						Logg inn
+					</button>
+				</form>
+			</div>
 		</div>
+	</div>
+	<body>
+
 		<div id="content">
 			<form id="newGameForm">
 				Motstander:
