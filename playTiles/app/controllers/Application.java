@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.List;
+
 import models.Game;
 
 import org.codehaus.jackson.JsonNode;
@@ -26,15 +28,23 @@ public class Application extends Controller {
 	}
 
 	/*
-	 * Show game
+	 * Show games
 	 * 
-	 * GET: /game/:id
+	 * Takes a player name
+	 * Returns all games of that player
+	 * 
+	 * GET: /game/:username
 	 */
-	public static Result show(Long id) {
+	public static Result show(String player) {
 
-		Game game = Game.find.byId(id);
+		List<Game> games = Game.find.where()
+				.eq("player", player)
+				.findList();
 
-		return ok(Json.toJson(game));
+		if (games.size() == 0) {
+			return ok(Json.toJson(null));
+		}
+		return ok(Json.toJson(games));
 	}
 
 	/*

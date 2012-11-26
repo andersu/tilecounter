@@ -8,7 +8,7 @@ GET     	/                       controllers.Application.index()
 GET			/numberOfGames			controllers.Application.count()
 # Game page
 POST    	/game                  	controllers.Application.create()
-GET			/game/:id				controllers.Application.show(id: Long)
+GET			/game/:player			controllers.Application.show(player: String)
 PUT			/game/:id				controllers.Application.update(id: Long)
 PUT			/game/:id/removeTile	controllers.Application.removeTile(id: Long)
 DELETE		/game/:id				controllers.Application.delete(id: Long)

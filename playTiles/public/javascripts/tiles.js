@@ -47,26 +47,25 @@ $('document').ready(function() {
 		//}
 
 		var numberOfGames = $.get("http://localhost:9000/numberOfGames", function(numberOfGames) {
-			loadGames(username, numberOfGames);
+			loadGames(username);
 		});
 
 		return false;
 	});
 });
 
-function loadGames(username, numberOfGames) {
-	var i = 1;
+function loadGames(username) {
+	var i;
+	var games;
+	games = $.get("http://localhost:9000/game/" + username, function(game) {
+		for ( i = 0; i < game.length; i++) {
 
-	var game;
-	for ( i = 1; i <= numberOfGames; i++) {
-		game = $.get("http://localhost:9000/game/" + i, function(game) {
-			createGame(game.id, game.opponent);
+			createGame(game[i].id, game[i].opponent);
 			gameCount++;
-			disableTiles(game.id, game.tilesPlayed);
-			return game;
-		})
-	}
-
+			disableTiles(game[i].id, game[i].tilesPlayed);
+		}
+		return games.size;
+	})
 }
 
 function updateNumberOfTilesLeft(id) {
@@ -166,7 +165,9 @@ function updateGame(id, opponent, tilesPlayed) {
 }
 
 function deleteGame(id) {
-	var game = {id : id};
+	var game = {
+		id : id
+	};
 	$.ajax({
 		url : "http://localhost:9000/game/" + id,
 		type : 'DELETE',
@@ -198,20 +199,11 @@ function createGame(id, opponent) {
 	var tilesLeftId = 'tilesLeft' + id;
 	var opponentId = 'opponent' + id;
 
-	var gameDiv = '<div id="' + gameId + '" class="game">' + 
-				  	'<label id="gameTitle">' + 
-				  		'Spill mot ' + 
-				  		'<label id="' + opponentId + '">' + 
-				  			opponent + 
-				  		'</label>' +
-				  	'</label>' + 
-				  	'<a class="close">X</a>' + 
-				  	'<div id="' + tilesId + '" class="tiles"></div>' + 
-				  '</div>';
+	var gameDiv = '<div id="' + gameId + '" class="game">' + '<label id="gameTitle">' + 'Spill mot ' + '<label id="' + opponentId + '">' + opponent + '</label>' + '</label>' + '<a class="close">X</a>' + '<div id="' + tilesId + '" class="tiles"></div>' + '</div>';
 	var newWordForm = '<form id="' + wordFormId + '" class="wordForm">' + 'Nye bokstaver lagt: ' + '<input id="' + wordInputId + '" type="text"></input>' + '<button id="submit" type="submit">Legg til</button> <br />' + 'Antall brikker igjen: ' + '<label id="' + tilesLeftId + '"></label>' + '</form>';
 
 	$('#games').append(gameDiv);
-	$('#'+gameId).children('.close').click(function() {
+	$('#' + gameId).children('.close').click(function() {
 		var id = $(this).parent().attr('id')[4];
 		alert(id);
 		$(this).parent().remove();
