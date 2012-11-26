@@ -18,6 +18,10 @@ import views.html.*;
 
 public class Application extends Controller {
 
+	
+	private static void printGame(Game game) {
+		System.out.println("player: " + game.getPlayer() + " id: " + game.getId() + " opponent: " + game.getOpponent() + " tilesPlayed: " + game.getTilesPlayed());
+	}
 	public static Result index() {
 
 		if (request().accepts("text/html")) {
@@ -36,11 +40,15 @@ public class Application extends Controller {
 	 * GET: /game/:username
 	 */
 	public static Result show(String player) {
-
+		System.out.println(request());
 		List<Game> games = Game.find.where()
 				.eq("player", player)
 				.findList();
-
+		
+		for (Game game:games) {
+			printGame(game);
+		}
+		
 		if (games.size() == 0) {
 			return ok(Json.toJson(null));
 		}
@@ -66,9 +74,7 @@ public class Application extends Controller {
 		}
 
 		Game game = Json.fromJson(json, Game.class);
-		System.out.println("Player: " + game.getPlayer() + " Opponent: "
-				+ game.getOpponent() + " Tiles played: "
-				+ game.getTilesPlayed());
+		printGame(game);
 		game.save();
 		return ok(Json.toJson(game));
 	}
@@ -76,10 +82,11 @@ public class Application extends Controller {
 	/*
 	 * Update an existing game
 	 * 
-	 * PUT: /game/:id
+	 * PUT: /game/:player/:id
 	 */
 	@BodyParser.Of(BodyParser.Json.class)
-	public static Result update(Long id) {
+	public static Result update(String player, Long id) {
+		System.out.println(request());
 		JsonNode json = request().body().asJson();
 
 		if (json == null) {
@@ -91,7 +98,9 @@ public class Application extends Controller {
 			return badRequest(result);
 		}
 
-		Game game = Game.find.byId(id);
+		Game game = Game.find.where()
+				.eq("id", id)
+				.eq("player", player).findUnique();
 
 		Game updatedGame = Json.fromJson(json, Game.class);
 
@@ -99,7 +108,7 @@ public class Application extends Controller {
 		game.update(updatedGame);
 		game.save();
 
-		System.out.println("id: " + id + " opponent: " + game.getOpponent()
+		System.out.println("player: " + game.getPlayer() + " id: " + id + " opponent: " + game.getOpponent()
 				+ " tilesPlayed: " + game.getTilesPlayed());
 
 		return ok(Json.toJson(game));

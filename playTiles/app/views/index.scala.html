@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-		<title>Wordfeud brikketeller</title>
+		<title>Game of Tiles</title>
 
 		<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/style.css")">
 		<script type="text/javascript" src="@routes.Assets.at("javascripts/jquery-1.8.2.min.js")"></script>
@@ -12,7 +12,7 @@
 	</head>
 
 	<body>
-		
+
 		<div class="header">
 			<img class="logo" src="@routes.Assets.at("images/GameOfTiles.png")"/>
 			<div class="loginDiv">
@@ -41,16 +41,32 @@
 		</div>
 
 		<div id="content">
-			<form class="newGameForm">
-				Motstander:
-				<input id="opponentInput" type="text"/>
-				<button id="newGameButton">
-					Nytt spill
-				</button>
-			</form>
 			<div class="splash">
-				<h1>Velkommen til Game of Tiles!</h1> <br/>
+				<h1>Velkommen til Game of Tiles!</h1>
 				<img class="splashimg" src="@routes.Assets.at("images/GameOfTiles.png")"/>
+				<br/>
+				<br/>
+				<div class="text">
+					
+					<p>
+						<b>Hva er Game of Tiles?</b>
+						</br>
+						Game of Tiles er en brikketeller for spill i Scrabble-familien.
+						<br/><br/>
+						<b>Telle brikker? Er ikke det juks?</b> 
+						<br/>
+						Nei, å telle hvilke brikker som er blitt lagt er tillatt og vanlig i turneringer.
+						Med Game of Tiles slipper du å skrive ned alle bokstavene på et ark og stryke dem ut manuelt.
+						<br/>
+						<br/>
+						<b>Feil, mangler eller ønsker?</b>
+						<br/>
+						Dette er et hobbyprosjekt som oppdateres når jeg har tid og lyst.
+						Ved feil, mangler, ønsker eller annen tilbakemelding, send en mail til andersullnass[at]gmail.com
+						
+					</p>
+				</div>
+
 			</div>
 			<div id="games"></div>
 		</div>
