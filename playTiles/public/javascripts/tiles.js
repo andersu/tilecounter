@@ -1,4 +1,3 @@
-// TODO: Legge til Ordspill og vanlig Scrabble som valg i tillegg til Wordfeud
 // TODO: Telle bokstaver ved bildeanalyse av screenshot
 // TODO: Responsive design
 // TODO: Login
@@ -10,10 +9,8 @@ var loginForm;
 var splashDiv;
 var user;
 $('document').ready(function() {
-
-	if ($(window).width() < 1000) {
-		$('.logo').attr("src", "assets/images/logotext.png")
-	}
+	
+	$('.loginDiv label').inFieldLabels();
 
 	$('.loginForm').submit(function() {
 
@@ -21,7 +18,13 @@ $('document').ready(function() {
 		user = username;
 		var password = $('.password').val();
 
-		var newGameForm = '<form class="newGameForm">' + 'Motstander: ' + '<input id="opponentInput" type="text"/>' + '<button id="newGameButton">Nytt spill</button>' + '</form>';
+		var newGameForm = '<form class="newGameForm">' + 
+						    '<table> <tr> <td> Motstander: </td>' + 
+						    '<td> <input id="opponentInput" type="text"/> </td></tr>' + 						
+						    '<tr> <td>Spilltype: </td>' + 
+						    '<td> <select id="gameTypeSelect"><option>Wordfeud</option><option>Scrabble/Ordspill</option></select></td>' + 
+						    '<td> <button id="newGameButton">Nytt spill</button><br/> </td></tr></table>'
+						  '</form>';
 
 		$(this)[0].reset();
 		loginForm = $(this);
@@ -30,9 +33,12 @@ $('document').ready(function() {
 		$('#games').before(newGameForm);
 
 		$('.loginForm').remove();
-		var userDiv = '<div class="userdiv">' + username + '</div>';
-		//$('.loginDiv').append(userDiv);
-		$('.userdiv').append('<img class="userimg" src="assets/images/User.png")"/>');
+		var userDiv = '<div class="userdiv">' + 
+					  	'<a data-toggle="dropdown" href="javascript:;">' + 
+					  	  username + 
+					  	  '</a>' +  
+					  '</div>';
+		$('.loginDiv').append(userDiv);
 
 		var numberOfGames = $.get("http://localhost:9000/numberOfGames", function(numberOfGames) {
 			loadGames(username);
@@ -41,7 +47,8 @@ $('document').ready(function() {
 		$('.newGameForm').submit(function() {
 
 			var opponent = $("#opponentInput").val();
-			var game = createGame(++gameCount, opponent);
+			var gameType = $("#gameTypeSelect").val();
+			var game = createGame(++gameCount, opponent, gameType);
 			postGame(game);
 			// Remove text from input field
 			$(this)[0].reset();
@@ -59,7 +66,7 @@ function loadGames(username) {
 	games = $.get("http://localhost:9000/game/" + username, function(games) {
 		for ( i = 0; i < games.length; i++) {
 
-			createGame(games[i].id, games[i].opponent);
+			createGame(games[i].id, games[i].opponent, games[i].gameType);
 			gameCount++;
 			disableTiles(games[i].id, games[i].tilesPlayed);
 		}
@@ -191,7 +198,7 @@ function disableTiles(gameId, tilesPlayed, updateDatabase) {
 	}
 }
 
-function createGame(id, opponent) {
+function createGame(id, opponent, gameType) {
 
 	var gameId = 'game' + id;
 	var tilesId = 'tiles' + id;
@@ -211,7 +218,7 @@ function createGame(id, opponent) {
 	});
 
 	var tilesDiv = $('#tiles' + id);
-	createTiles(tilesDiv);
+	createTiles(tilesDiv, gameType);
 	// TODO: fix ugly code
 	$('#' + gameId).append("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>");
 	$('#' + gameId).append('<div>' + newWordForm + '</div>');
@@ -247,16 +254,29 @@ function createGame(id, opponent) {
 	var game = {
 		player : user,
 		opponent : opponent,
-		tilesPlayed : ""
+		tilesPlayed : "",
+		gameType: gameType
 	};
 
 	return game;
 
 }
 
-function createTiles(tilesDiv) {
+function createTiles(tilesDiv, gameType) {
 
-	var tileDistribution = "7:A:1 3:B:4 1:C:10 5:D:1 9:E:1 4:F:2 4:G:4 3:H:3 6:I:2 2:J:4 4:K:3 5:L:2 3:M:2 6:N:1 " + "4:O:3 2:P:4 7:R:1 7:S:1 7:T:1 3:U:4 3:V:5 1:W:10 1:Y:8 1:Æ:8 2:Ø:4 2:Å:4 2:*:";
+	var tileDistributionScrabbleOrdspill = "7:A:1 3:B:4 1:C:10 5:D:1 9:E:1 4:F:2 4:G:2 3:H:3 5:I:1 2:J:4 4:K:2 5:L:1 3:M:2 6:N:1 " +  
+								   "4:O:2 2:P:4 6:R:1 6:S:1 6:T:1 3:U:4 3:V:4 1:W:8 1:Y:6 1:Æ:6 2:Ø:5 2:Å:4 2:*:";
+								   
+	var tileDistributionWordfeud = "7:A:1 3:B:4 1:C:10 5:D:1 9:E:1 4:F:2 4:G:4 3:H:3 6:I:2 2:J:4 4:K:3 5:L:2 3:M:2 6:N:1 " + 
+						   "4:O:3 2:P:4 7:R:1 7:S:1 7:T:1 3:U:4 3:V:5 1:W:10 1:Y:8 1:Æ:8 2:Ø:4 2:Å:4 2:*:";
+						   
+	var tileDistribution;
+	if (gameType == "Wordfeud") {
+		tileDistribution = tileDistributionWordfeud;
+	}
+	else {
+		tileDistribution = tileDistributionScrabbleOrdspill;
+	}
 
 	$.map(tileDistribution.split(" "), function(tileBasis) {
 		var numberOfTiles = tileBasis.split(":")[0];

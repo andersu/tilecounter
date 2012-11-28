@@ -8,6 +8,7 @@ create table game (
   player                    varchar(255),
   opponent                  varchar(255),
   tiles_played              varchar(255),
+  game_type                 varchar(255),
   constraint pk_game primary key (id))
 ;
 

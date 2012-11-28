@@ -7,34 +7,31 @@
 
 		<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/style.css")">
 		<script type="text/javascript" src="@routes.Assets.at("javascripts/jquery-1.8.2.min.js")"></script>
+		<script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.infieldlabel.min.js")"></script>
 		<script type="text/javascript" src="@routes.Assets.at("javascripts/tiles.js")"></script>
+		
 
 	</head>
 
 	<body>
 
 		<div class="header">
-			<img class="logo" src="@routes.Assets.at("images/GameOfTiles.png")"/>
+			<img class="logo" src="@routes.Assets.at("images/logotext.png")"/>
 			<div class="loginDiv">
 				<form class="loginForm">
-					<table>
-						<tr>
-							<td>Brukernavn:</td>
-							<td>
-							<input class="username" type="text"/>
-							</td>
-						</tr>
-						<tr>
-							<td>Passord:</td>
-							<td>
-							<input class="password" type="password"/>
-							</td>
-							<td>
-							<button id="loginButton" type="submit">
-								Logg inn
-							</button></td>
-						</tr>
-					</table>
+					<ul class="inline-login">
+						<li>
+							<input id="usernameinput" class="username" type="text"/>
+							<label for="usernameinput">Brukernavn</label>
+						</li>
+						<li>
+							<input id="passwordinput" class="password" type="password"/>
+							<label for="passwordinput">Passord</label>
+						</li>
+						<li>
+							<input class="loginButton" id="loginButton" type="submit" value="Logg inn"></button>
+						</li>
+					</ul>
 
 				</form>
 			</div>
@@ -47,13 +44,14 @@
 				<br/>
 				<br/>
 				<div class="text">
-					
+
 					<p>
 						<b>Hva er Game of Tiles?</b>
 						</br>
 						Game of Tiles er en brikketeller for spill i Scrabble-familien.
-						<br/><br/>
-						<b>Telle brikker? Er ikke det juks?</b> 
+						<br/>
+						<br/>
+						<b>Telle brikker? Er ikke det juks?</b>
 						<br/>
 						Nei, å telle hvilke brikker som er blitt lagt er tillatt og vanlig i turneringer.
 						Med Game of Tiles slipper du å skrive ned alle bokstavene på et ark og stryke dem ut manuelt.
@@ -63,7 +61,7 @@
 						<br/>
 						Dette er et hobbyprosjekt som oppdateres når jeg har tid og lyst.
 						Ved feil, mangler, ønsker eller annen tilbakemelding, send en mail til andersullnass[at]gmail.com
-						
+
 					</p>
 				</div>
 

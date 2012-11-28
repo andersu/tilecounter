@@ -18,6 +18,7 @@ public class Game extends Model {
 	String player;
 	String opponent;
 	String tilesPlayed;
+	String gameType;
 
 	public Long getId() {
 		return id;
@@ -50,6 +51,14 @@ public class Game extends Model {
 	public void setTilesPlayed(String tilesPlayed) {
 		this.tilesPlayed = tilesPlayed;
 	}
+	
+	public String getGameType() {
+		return gameType;
+	}
+
+	public void setGameType(String gameType) {
+		this.gameType = gameType;
+	}
 
 	public static Finder<Long, Game> getFind() {
 		return find;
@@ -67,6 +76,7 @@ public class Game extends Model {
 		this.setId(updatedGame.getId());
 		this.setPlayer(updatedGame.getPlayer());
 		this.setOpponent(updatedGame.getOpponent());
+		this.setGameType(updatedGame.getGameType());
 		if (updatedGame.getTilesPlayed().startsWith("-")) {
 			System.out.println("starts with -");
 			String letterToReplace = updatedGame.getTilesPlayed().substring(1);
