@@ -27,11 +27,11 @@ public class Game extends Model {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getPlayer() {
 		return player;
 	}
-	
+
 	public void setPlayer(String player) {
 		this.player = player;
 	}
@@ -51,7 +51,7 @@ public class Game extends Model {
 	public void setTilesPlayed(String tilesPlayed) {
 		this.tilesPlayed = tilesPlayed;
 	}
-	
+
 	public String getGameType() {
 		return gameType;
 	}
@@ -77,20 +77,27 @@ public class Game extends Model {
 		this.setPlayer(updatedGame.getPlayer());
 		this.setOpponent(updatedGame.getOpponent());
 		this.setGameType(updatedGame.getGameType());
+		
 		if (updatedGame.getTilesPlayed().startsWith("-")) {
 			System.out.println("starts with -");
+
 			String letterToReplace = updatedGame.getTilesPlayed().substring(1);
-			this.setTilesPlayed(this.tilesPlayed.replaceFirst(letterToReplace, ""));
-		}
+			if (letterToReplace.equals("*")) {
+				this.setTilesPlayed(this.tilesPlayed.replaceFirst("\\*", ""));
+			}
+			else {
+				this.setTilesPlayed(this.tilesPlayed.replaceFirst(letterToReplace, ""));
+			}
+			System.out.println("letterToReplace: " + letterToReplace);
+		} 
 		else {
 			this.setTilesPlayed(this.tilesPlayed + updatedGame.getTilesPlayed());
 		}
 	}
-	
-	public void removeFromTilesPlayed(String tileToRemove) {
-		String newTilesPlayed = "";
-		this.tilesPlayed.replace(tileToRemove, "");
-		System.out.println(this.tilesPlayed);
+
+	public String toString() {
+		return "player: " + player + " id: " + id + " opponent: " + opponent
+				+ " tilesPlayed: " + tilesPlayed + " gameType: " + gameType;
 	}
 
 	public static Finder<Long, Game> find = new Finder<Long, Game>(Long.class,

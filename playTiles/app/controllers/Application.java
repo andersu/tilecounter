@@ -18,10 +18,6 @@ import views.html.*;
 
 public class Application extends Controller {
 
-	
-	private static void printGame(Game game) {
-		System.out.println("player: " + game.getPlayer() + " id: " + game.getId() + " opponent: " + game.getOpponent() + " tilesPlayed: " + game.getTilesPlayed());
-	}
 	public static Result index() {
 
 		if (request().accepts("text/html")) {
@@ -46,7 +42,7 @@ public class Application extends Controller {
 				.findList();
 		
 		for (Game game:games) {
-			printGame(game);
+			System.out.println(game);
 		}
 		
 		if (games.size() == 0) {
@@ -74,7 +70,7 @@ public class Application extends Controller {
 		}
 
 		Game game = Json.fromJson(json, Game.class);
-		printGame(game);
+		System.out.println(game);
 		game.save();
 		return ok(Json.toJson(game));
 	}
@@ -108,8 +104,7 @@ public class Application extends Controller {
 		game.update(updatedGame);
 		game.save();
 
-		System.out.println("player: " + game.getPlayer() + " id: " + id + " opponent: " + game.getOpponent()
-				+ " tilesPlayed: " + game.getTilesPlayed());
+		System.out.println(game);
 
 		return ok(Json.toJson(game));
 	}
@@ -139,8 +134,7 @@ public class Application extends Controller {
 		game.update(updatedGame);
 		game.save();
 
-		System.out.println("id: " + id + " opponent: " + game.getOpponent()
-				+ " tilesPlayed: " + game.getTilesPlayed());
+		System.out.println(game);
 
 		return ok(Json.toJson(game));
 	}
