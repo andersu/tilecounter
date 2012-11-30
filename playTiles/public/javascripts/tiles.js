@@ -26,11 +26,36 @@ $('document').ready(function() {
 		$('#games').before(newGameForm);
 
 		$('.loginForm').remove();
-		var userDiv = '<div class="userdiv">' + username + '<img class="downarrow" src="assets/images/downarrow.png"' + '</div>';
+		var userDiv = '<div class="userdiv">' + username + '<img class="downarrow" src="assets/images/downarrow.png"/>' + '</div>';
 		$('.loginDiv').append(userDiv);
 
 		var numberOfGames = $.get("http://localhost:9000/numberOfGames", function(numberOfGames) {
 			loadGames(username);
+		});
+
+		$('.userdiv').click(function() {
+			$('.usermenu').toggle();
+			if ($('.userdiv').hasClass("clicked")) {
+				$('.userdiv').removeClass("clicked");
+			} else {
+				$('.userdiv').addClass("clicked");
+			}
+
+			$('.logout').click(function() {
+				window.location = "http://localhost:9000";
+			});
+
+			$('#content').click(function() {
+				$('.usermenu').slideUp('slow').hide();
+				$('.userdiv').removeClass("clicked");
+			});
+
+			// $(':not(.userdiv)').click(function() {
+			// alert("clicked somewhere");
+			// $('.userdiv').css("background-color", "#391456");
+			// $('.userdiv').css("color", "#CCCCCC");
+			//
+			// });
 		});
 
 		$('.newGameForm').submit(function() {
@@ -84,13 +109,11 @@ function createGame(id, opponent, gameType) {
 	$('#' + tilesId).children('.tile').click(function() {
 		if ($(this).hasClass('used')) {
 			updateGame(id, opponent, "-" + $(this).children('.letter').text(), gameType);
-		}
-		else {
+		} else {
 			updateGame(id, opponent, $(this).children('.letter').text(), gameType);
 		}
 		toggleTile(id, $(this), gameType);
-		
-		
+
 	});
 
 	$('#' + wordFormId).submit(function() {
@@ -151,7 +174,6 @@ function toggleTile(gameId, tile, gameType) {
 
 		tile.removeClass("used");
 
-
 	} else {
 		tile.addClass("used");	}
 
@@ -204,7 +226,8 @@ function disableTile(gameId, letter) {
 	firstTile = firstLetter.parent();
 
 	if (firstTile.val() == undefined) {
-		alert("Ingen flere " + letter + "-brikker igjen!");;
+		alert("Ingen flere " + letter + "-brikker igjen!");
+		;
 	} else {
 		toggleTile(gameId, firstTile);
 	}
@@ -215,7 +238,7 @@ function disableTiles(gameId, tilesPlayed, updateDatabase) {
 	var i = 0;
 	var success;
 	for ( i = 0; i < tilesPlayed.length; i++) {
-		disableTile(gameId, tilesPlayed[i]);  
+		disableTile(gameId, tilesPlayed[i]);
 	}
 
 	var opponent = $('#opponent' + gameId).text();

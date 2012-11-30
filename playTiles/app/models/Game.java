@@ -73,11 +73,19 @@ public class Game extends Model {
 	}
 
 	public void update(Game updatedGame) {
-		this.setId(updatedGame.getId());
-		this.setPlayer(updatedGame.getPlayer());
-		this.setOpponent(updatedGame.getOpponent());
-		this.setGameType(updatedGame.getGameType());
-		
+		if (updatedGame.getId() != null) {
+			this.setId(updatedGame.getId());
+		}
+		if (updatedGame.getPlayer() != null) {
+			this.setPlayer(updatedGame.getPlayer());
+		}
+		if (updatedGame.getOpponent() != null) {
+			this.setOpponent(updatedGame.getOpponent());
+		}
+		if (updatedGame.getGameType() != null) {
+			this.setGameType(updatedGame.getGameType());
+		}
+
 		if (updatedGame.getTilesPlayed().startsWith("-")) {
 			System.out.println("starts with -");
 

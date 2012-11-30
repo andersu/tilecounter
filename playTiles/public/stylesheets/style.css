@@ -16,7 +16,7 @@ body {
 
 .header {
 	width: 100%;
-	height: 52px;
+	height: 40px;
 	background-color: #391456;
 	float: left;
 	position: absolute;
@@ -31,6 +31,7 @@ body {
 
 .logo {
 	float: left;
+	height: 40px;
 }
 
 .loginDiv {
@@ -47,7 +48,7 @@ body {
 	height: 20px;
 	padding: 1px 2px;
 	font-size: 12px;
-	margin-top: 15px;
+	margin-top: 9px;
 }
 
 .loginDiv label {
@@ -96,12 +97,53 @@ img {
 .userdiv{
 	position: relative;
 	height: 24px;
-	font-size: 14px;
+	font-size: 12px;
 	color: #CCCCCC;
 	display: block;
-	padding: 14px;	
+	padding: 10px 10px 6px 10px;	
 	text-float: left;
 	cursor: pointer;
+}
+
+.userdiv:hover {
+	background-color: #5B3678;
+	color: #FFFFFF;
+}
+
+.userdiv.clicked {
+	background-color: #5B3678;
+	color: #FFFFFF;
+}
+
+.usermenu {
+	position: absolute;
+	top:40px;
+	right:20px;
+	background-color: #5B3678;
+	display: none;
+	cursor: pointer;
+	color: #CCCCCC;
+	border-radius: 0px 0px 5px 5px;
+}
+
+.usermenu ul {
+	position: relative;
+	text-align: left;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+}
+.usermenu li {
+	padding: 3px 5px 5px 10px;
+	width: 100px;
+	border-radius: 0px 0px 5px 5px;
+}
+
+.usermenu li:hover {
+	background-color: #391456;
+	color: #FFFFFF;
+	border-radius: 0px 0px 5px 5px;
 }
 
 .userdiv a {
@@ -111,23 +153,19 @@ img {
 	display: block;
 	color: #CCCCCC;
 	text-decoration: none;
-	margin-top: 7px;
-	padding: 10px;
 }
 
 .userdiv img {
 	position: relative;
 	float: right;
 	cursor: pointer;
-	bottom: 17px;
+	bottom: 16px;
 	left: 7px;
 	padding-right: 7px;
+	height: 3px;
 }
 
-.userdiv:hover {
-	background-color: #5B3678;
-	color: #FFFFFF;
-}
+
 
 td {
 	padding: 0 10px;
@@ -152,7 +190,7 @@ select {
 	position: relative;
 	width: 100%;
 	height: 100%;
-	top: 50pt;
+	top: 20px;
 }
 
 #games {
@@ -287,6 +325,8 @@ div.used {
 }
 
 .splash {
+	position: relative;
+	top: 30px;
 	width: 30%;
 	margin: 30pt auto;
 	text-align: center;
